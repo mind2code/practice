@@ -1,8 +1,8 @@
 /*
  *
- * 将一个unsigned int类型的数字转化为相应的字符串
+ * 灏嗕竴涓猽nsigned int绫诲瀷鐨勬暟瀛楄浆鍖栦负鐩稿簲鐨勫瓧绗︿覆
  * @2013-2-10
- *
+ * 
  */
  
 #include <stdio.h>

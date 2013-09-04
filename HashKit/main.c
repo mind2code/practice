@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "HashKit.h"
-//¿¿¿¿
+
 int main()
 {
    ElemType r[10]={{12,3},{1,2},{11,1},{22,4},{23,5},{2,6},{3,7},{4,8},{60,9},{13,10}};
@@ -14,7 +14,7 @@ int main()
    {
      j=InsertHash(&h,r[i]);
      if(j==DUPLICATE)
-       printf("Key in the HashTable%dµÄ¼ÇÂ¼£¬ÎŞ·¨ÔÙ²åÈë¼ÇÂ¼(%d,%d) ",r[i].key,r[i].key,r[i].ord);
+       printf("Key in the HashTable%dçš„è®°å½•ï¼Œæ— æ³•å†æ’å…¥è®°å½•(%d,%d) ",r[i].key,r[i].key,r[i].ord);
    }
    printf("All the HashTable: \n");
    TraverseHash(&h,print);
@@ -25,23 +25,23 @@ int main()
    if(j==SUCCESS)
      print(p,h.elem[p]);
    else
-     printf("Ã»ÕÒµ½ ");
-   printf("the key to delete£º\n");
+     printf("æ²¡æ‰¾åˆ° ");
+   printf("the key to deleteï¼š\n");
    scanf("%d",&k);
    DeletHash(&h,k);
    TraverseHash(&h,print);
-/*   j=InsertHash(&h,r[i]); // ²åÈëµÚN¸ö¼ÇÂ¼
-   if(j==UNSUCCESS) // ÖØ½¨¹şÏ£±í
-     j=InsertHash(&h,r[i]); // ÖØ½¨¹şÏ£±íºóÖØĞÂ²åÈë
-   printf("°´¹şÏ£µØÖ·µÄË³Ğò±éÀúÖØ½¨ºóµÄ¹şÏ£±í: ");
+/*   j=InsertHash(&h,r[i]); // æ’å…¥ç¬¬Nä¸ªè®°å½•
+   if(j==UNSUCCESS) // é‡å»ºå“ˆå¸Œè¡¨
+     j=InsertHash(&h,r[i]); // é‡å»ºå“ˆå¸Œè¡¨åé‡æ–°æ’å…¥
+   printf("æŒ‰å“ˆå¸Œåœ°å€çš„é¡ºåºéå†é‡å»ºåçš„å“ˆå¸Œè¡¨: ");
    TraverseHash(h,print);
-   printf("ÇëÊäÈë´ı²éÕÒ¼ÇÂ¼µÄ¹Ø¼ü×Ö: ");
+   printf("è¯·è¾“å…¥å¾…æŸ¥æ‰¾è®°å½•çš„å…³é”®å­—: ");
    scanf("%d",&k);
    j=Find(h,k,p);
    if(j==SUCCESS)
      print(p,h.elem[p]);
    else
-     printf("Ã»ÕÒµ½ ");*/
+     printf("æ²¡æ‰¾åˆ° ");*/
    destroyHashTable(&h);
    system("pause");
 }

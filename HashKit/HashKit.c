@@ -1,10 +1,10 @@
 #include "HashKit.h"
 
 int hashsize[]={11,19,29,37};
-int m;//¹şÏ£±í³¤¶È£¬È«¾Ö±äÁ¿
+int m;//å“ˆå¸Œè¡¨é•¿åº¦ï¼Œå…¨å±€å˜é‡
 
-//³õÊ¼»¯¹şÏ£±í,
-//Input:Ö¸Ïò¹şÏ£±íHµÄÖ¸Õë
+//åˆå§‹åŒ–å“ˆå¸Œè¡¨,
+//Input:æŒ‡å‘å“ˆå¸Œè¡¨Hçš„æŒ‡é’ˆ
 void InitHashTable(HashTable *H)
 {
 	int i;
@@ -18,8 +18,8 @@ void InitHashTable(HashTable *H)
 	  H->elem[i].key=NULLKEY;
 }
 
-//Ïú»Ù¹şÏ£±í
-//Ö¸Ïò¹şÏ£±íHµÄÖ¸Õë
+//é”€æ¯å“ˆå¸Œè¡¨
+//æŒ‡å‘å“ˆå¸Œè¡¨Hçš„æŒ‡é’ˆ
 void destroyHashTable(HashTable *H)
 {
 	free(H->elem);
@@ -28,34 +28,34 @@ void destroyHashTable(HashTable *H)
 	H->elem=NULL;
 }
 
-//¹şÏ£º¯Êı
+//å“ˆå¸Œå‡½æ•°
 unsigned Hash(const KeyType key)
 {
 	return key%m;
 }
 
-//ÏßĞÔÌ½²âÔÙÉ¢ÁĞ
+//çº¿æ€§æ¢æµ‹å†æ•£åˆ—
 void collision(int *p)
 {
 	*p=++*p%m;
 }
-// ÔÚ¿ª·Å¶¨Ö·¹şÏ£±íHÖĞ²éÕÒ¹Ø¼üÂëÎªKµÄÔªËØ,Èô²éÕÒ³É¹¦,ÒÔpÖ¸Ê¾´ı²éÊı¾İ
+// åœ¨å¼€æ”¾å®šå€å“ˆå¸Œè¡¨Hä¸­æŸ¥æ‰¾å…³é”®ç ä¸ºKçš„å…ƒç´ ,è‹¥æŸ¥æ‰¾æˆåŠŸ,ä»¥pæŒ‡ç¤ºå¾…æŸ¥æ•°æ®
 Status searchHash(const HashTable *H,KeyType K,int *p,int *c)
 {
-	*p=Hash(K); // ÇóµÃ¹şÏ£µØÖ·
+	*p=Hash(K); // æ±‚å¾—å“ˆå¸Œåœ°å€
 	*c=0;
 	while(H->elem[*p].key!=NULLKEY&&!EQ(K,H->elem[*p].key))
-	{ // ¸ÃÎ»ÖÃÖĞÌîÓĞ¼ÇÂ¼£®²¢ÇÒ¹Ø¼ü×Ö²»ÏàµÈ
+	{ // è¯¥ä½ç½®ä¸­å¡«æœ‰è®°å½•ï¼å¹¶ä¸”å…³é”®å­—ä¸ç›¸ç­‰
 	 (*c)++;
-	 collision(p); // ÇóµÃÏÂÒ»Ì½²éµØÖ·p
+	 collision(p); // æ±‚å¾—ä¸‹ä¸€æ¢æŸ¥åœ°å€p
 	}
 	if EQ(K,H->elem[*p].key)
-	 return SUCCESS; // ²éÕÒ³É¹¦£¬p·µ»Ø´ı²éÊı¾İÔªËØÎ»ÖÃ
+	 return SUCCESS; // æŸ¥æ‰¾æˆåŠŸï¼Œpè¿”å›å¾…æŸ¥æ•°æ®å…ƒç´ ä½ç½®
 	else
 	  {
 		p=NULL;
 		return UNSUCCESS;
-	  } // ²éÕÒ²»³É¹¦(H.elem[p].key==NULLKEY)£¬p·µ»ØµÄÊÇ²åÈëÎ»ÖÃ
+	  } // æŸ¥æ‰¾ä¸æˆåŠŸ(H.elem[p].key==NULLKEY)ï¼Œpè¿”å›çš„æ˜¯æ’å…¥ä½ç½®
 }
 Status SearchHash(const HashTable *H,KeyType K,int *p)
 {
@@ -63,50 +63,50 @@ Status SearchHash(const HashTable *H,KeyType K,int *p)
   return searchHash(H,K,p,&c);
 }
 
-/*Status InsertHash(HashTable &,ElemType); // ¶Ôº¯ÊıµÄÉùÃ÷
-void RecreateHashTable(HashTable &H) // ÖØ½¨¹şÏ£±í
+/*Status InsertHash(HashTable &,ElemType); // å¯¹å‡½æ•°çš„å£°æ˜
+void RecreateHashTable(HashTable &H) // é‡å»ºå“ˆå¸Œè¡¨
 { int i,count=H.count;
    ElemType *p,*elem=(ElemType*)malloc(count*sizeof(ElemType));
    p=elem;
-   printf("ÖØ½¨¹şÏ£±í ");
+   printf("é‡å»ºå“ˆå¸Œè¡¨ ");
    for(i=0;i
-   if((H.elem+i)->key!=NULLKEY) // ¸Ãµ¥ÔªÓĞÊı¾İ
+   if((H.elem+i)->key!=NULLKEY) // è¯¥å•å…ƒæœ‰æ•°æ®
    *p++=*(H.elem+i);
    H.count=0;
-   H.sizeindex++; // Ôö´ó´æ´¢ÈİÁ¿
+   H.sizeindex++; // å¢å¤§å­˜å‚¨å®¹é‡
    m=hashsize[H.sizeindex];
    p=(ElemType*)realloc(H.elem,m*sizeof(ElemType));
    if(!p)
-     exit(OVERFLOW); // ´æ´¢·ÖÅäÊ§°Ü
+     exit(OVERFLOW); // å­˜å‚¨åˆ†é…å¤±è´¥
    H.elem=p;
    for(i=0;i
-     H.elem[i].key=NULLKEY; // Î´Ìî¼ÇÂ¼µÄ±êÖ¾(³õÊ¼»¯)
+     H.elem[i].key=NULLKEY; // æœªå¡«è®°å½•çš„æ ‡å¿—(åˆå§‹åŒ–)
    for(p=elem;p
      InsertHash(H,*p);
 }*/
 
 Status InsertHash(HashTable *H,ElemType e)
-// ²éÕÒ²»³É¹¦Ê±²åÈëÊı¾İÔªËØeµ½¿ª·Å¶¨Ö·¹şÏ£±íHÖĞ£¬²¢·µ»ØOK£»
+// æŸ¥æ‰¾ä¸æˆåŠŸæ—¶æ’å…¥æ•°æ®å…ƒç´ eåˆ°å¼€æ”¾å®šå€å“ˆå¸Œè¡¨Hä¸­ï¼Œå¹¶è¿”å›OKï¼›
 {
 	int c,p;
-	if(searchHash(H,e.key,&p,&c)) // ±íÖĞÒÑÓĞÓëeÓĞÏàÍ¬¹Ø¼ü×ÖµÄÔªËØ
+	if(searchHash(H,e.key,&p,&c)) // è¡¨ä¸­å·²æœ‰ä¸eæœ‰ç›¸åŒå…³é”®å­—çš„å…ƒç´ 
 	 return DUPLICATE;
 	else
 		if(c<hashsize[H->sizeindex]/2)
-		{ // ²åÈëe
+		{ // æ’å…¥e
 		 H->elem[p]=e;
 		 ++H->count;
 		 return SUCCESS;
 		}
 		else
 		{
-//			RecreateHashTable(H); // ÖØ½¨¹şÏ£±í
-			printf("³åÍ»¹ı¶àĞèÒªÖØĞÂ½¨±í£¡\n");
+//			RecreateHashTable(H); // é‡å»ºå“ˆå¸Œè¡¨
+			printf("å†²çªè¿‡å¤šéœ€è¦é‡æ–°å»ºè¡¨ï¼\n");
 			return UNSUCCESS;
 		}
 }
 
-//É¾³ıÖ¸¶¨ÔªËØ
+//åˆ é™¤æŒ‡å®šå…ƒç´ 
 Status DeletHash(HashTable *H,KeyType K)
 {
      int p;
@@ -116,15 +116,15 @@ Status DeletHash(HashTable *H,KeyType K)
 }
 
 void TraverseHash(const HashTable *H,void(*Vi)(int,ElemType))
-// °´¹şÏ£µØÖ·µÄË³Ğò±éÀú¹şÏ£±í
+// æŒ‰å“ˆå¸Œåœ°å€çš„é¡ºåºéå†å“ˆå¸Œè¡¨
 {
 	int i;
 	for(i=0;i<hashsize[H->sizeindex];i++)
-	 if(H->elem[i].key!=NULLKEY) // ÓĞÊı¾İ
+	 if(H->elem[i].key!=NULLKEY) // æœ‰æ•°æ®
 	   Vi(i,H->elem[i]);
 }
 
-void print(int p,ElemType r)//Êä³ö
+void print(int p,ElemType r)//è¾“å‡º
 {
    printf("address=%d (%d,%d) \n",p,r.key,r.ord);
 }
