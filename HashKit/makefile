@@ -1,8 +1,0 @@
-main:main.o libHashKit.a
-	cc -o main main.o -L. -lHashKit
-main.o:main.c HashKit.h
-	cc -c main.c -L.
-libHashKit.a:HashKit.o
-	ar crv libHashKit.a HashKit.o
-clean:
-	rm -f main.o HashKit.o libHashKit.a main
