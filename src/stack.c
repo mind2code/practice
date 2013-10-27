@@ -3,46 +3,63 @@
 #include <stdio.h>
 #include <string.h>
 
-void stack_init(stack_t* stack,int (*eq)(const void *data1,const void *data2),void (*destroy)(void *data))
+int cmp_d(const void *key1,const void *key2, size_t size)
+{
+	return memcmp(key1,key2,size);
+}
+void free_d(void *data)
+{
+	free(data);
+}
+
+void stack_init(stack_t* stack,cmp_t *cmp, free_t *free)
 {
 	stack->size=0;
 	stack->top=NULL;
 	stack->bottom=NULL;
-	stack->eq=eq;
-	stack->destroy=destroy;
+	if(cmp != NULL)
+		stack->cmp = cmp;
+	else
+		stack->cmp = cmp_d;
+	if(free != NULL)
+		stack->free = free;
+	else
+		stack->free = free_d;
 }
 
 void stack_destroy(stack_t* stack)
 {
-	stackelem_t *top=stack->top;
+	stack_elem_t *top=stack->top;
 	while(stack->size)
 	{
 		stack->top=top->next;
 		stack->size--;
-		stack->destroy(top->data);
+		stack->free(top->data);
 		free(top);
 		top=stack->top;	
 	}
-	memset(stack,0,sizeof(stack_t));
+	stack->top = stack->bottom = NULL;
 }
 
-int stack_pop(stack_t* stack,void **ptrdata)
+void *stack_pop(stack_t* stack)
 {
 	if(stack->size==0)
-		return 0;
-	stackelem_t *del=stack->top;
+		return NULL;
+
+	stack_elem_t *del=stack->top;
+	void * data = del->data;
 	stack->top=stack->top->next;
 	stack->size--;
-	ptrdata=&del->data;
 	if(stack->size==0)
-		stack->bottom=NULL;	
-	return 1;
+		stack->bottom=NULL;
+	free(del);	
+	return data;
 }
 
 int stack_push(stack_t* stack,const void *data)
 {
-	stackelem_t *elem;
-	elem=(stackelem_t *)malloc(sizeof(stackelem_t));
+	stack_elem_t *elem;
+	elem=(stack_elem_t *)malloc(sizeof(stack_elem_t));
 	if(elem==NULL)
 		return 0;
 	elem->data=(void *)data;
@@ -54,20 +71,19 @@ int stack_push(stack_t* stack,const void *data)
 	return 1;
 }
 
-void stack_show(stack_t *stack)
+void stack_show(stack_t *stack, show_t *show)
 {
 	if(stack->size==0)
 	{
 		printf("The stack is empty\n");
 		return ;
 	}
-	stackelem_t* elem=stack->top;
+	stack_elem_t* elem=stack->top;
 	while(elem!=NULL)
 	{
-		printf("%d\t",*(int*)elem->data);
+		show(elem->data);
 		elem=elem->next;
 	}
-	printf("\n");
 }
 
 int stack_read(stack_t* stack,void **data)

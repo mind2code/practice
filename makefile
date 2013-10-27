@@ -17,4 +17,3 @@ libHashKit.a(HashKit.o):HashKit.o
 
 clean:
 	rm ./*.o set_main list_main stack_main HashKit_main *.a *~ -r -f
-	
