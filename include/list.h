@@ -11,9 +11,9 @@
 #include <stdlib.h>
 #include <stddef.h>
 
-typedef int cmp_f(const void *key1, const void *key2, size_t size);	//return 0 means eq, default is memcmp
-typedef void free_f(void *data);	//default is free
-typedef int expire_f(void *data);	//return 1 means expired, default never expired, that is to say, return 0
+typedef int cmp_t(const void *key1, const void *key2, size_t size);	//return 0 means eq, default is memcmp
+typedef void free_t(void *data);	//default is free
+typedef int expire_t(void *data);	//return 1 means expired, default never expired, that is to say, return 0
 
 /*** data define ***/
 typedef struct list_elem
@@ -35,7 +35,7 @@ typedef struct list
 /*** data define end ***/
 
 /*** function define ***/
-void list_init(list_t *list, free_f *free, cmp_f *cmp, expire_f *expire);//if free,cmp,expire is NULL, use the default
+void list_init(list_t *list, free_t *free, cmp_t *cmp, expire_t *expire);//if free,cmp,expire is NULL, use the default
 
 void list_destroy(list_t *list);
 
