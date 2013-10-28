@@ -26,7 +26,7 @@ int list_size(const list_t* list)
 	return list->size;
 }
 
-void list_init(list_t *list,free_f *free,cmp_f *cmp,expire_f *expire)
+void list_init(list_t *list,free_t *free,cmp_t *cmp,expire_t *expire)
 {
 	list->head = NULL;
 	list->tail = NULL;
